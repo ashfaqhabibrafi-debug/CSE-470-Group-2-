@@ -74,6 +74,14 @@ const VolunteerDashboard = () => {
             View Feedback →
           </Link>
         </div>
+
+        <div className="dashboard-card">
+          <h3>Safety Tips & Education</h3>
+          <p>Learn first-aid, safety guidelines, and emergency contact information.</p>
+          <Link to="/safety-tips" className="card-link">
+            View Safety Tips →
+          </Link>
+        </div>
       </div>
     </div>
   );

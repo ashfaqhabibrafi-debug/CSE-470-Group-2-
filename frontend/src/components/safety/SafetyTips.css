@@ -1,0 +1,262 @@
+.safety-tips-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.safety-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.safety-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.safety-header p {
+  font-size: 1.1rem;
+  opacity: 0.95;
+}
+
+.safety-content {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.safety-section {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.safety-section h2 {
+  color: #333;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 3px solid #667eea;
+}
+
+/* Emergency Contacts */
+.contacts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.contact-card {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
+  border: 2px solid #e0e0e0;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.contact-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.contact-card.emergency {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+  color: white;
+  border-color: #ff6b6b;
+}
+
+.contact-card.emergency h3,
+.contact-card.emergency .contact-number,
+.contact-card.emergency .contact-description {
+  color: white;
+}
+
+.contact-card h3 {
+  color: #333;
+  font-size: 1.2rem;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
+.contact-number {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #667eea;
+  margin: 0.5rem 0;
+  font-family: 'Courier New', monospace;
+}
+
+.contact-description {
+  color: #666;
+  font-size: 0.95rem;
+  margin-top: 0.5rem;
+}
+
+/* First Aid Tips */
+.tips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.tip-card {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+}
+
+.tip-card h3 {
+  color: #333;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.tip-card ol {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.tip-card li {
+  color: #555;
+  line-height: 1.8;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+/* Disaster Preparedness */
+.disaster-tips {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.disaster-tip-card {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 1.5rem;
+  border-radius: 8px;
+  border-top: 4px solid #667eea;
+}
+
+.disaster-tip-card h3 {
+  color: #333;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.disaster-tip-card ul {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.disaster-tip-card li {
+  color: #555;
+  line-height: 1.8;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+/* Safety Guidelines */
+.guidelines-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.guideline-card {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 2px solid #e0e0e0;
+}
+
+.guideline-card h3 {
+  color: #333;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.guideline-card ul {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.guideline-card li {
+  color: #555;
+  line-height: 1.8;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+/* Reminders Section */
+.reminder-section {
+  background: linear-gradient(135deg, #fff3cd 0%, #ffe69c 100%);
+  border: 2px solid #ffc107;
+}
+
+.reminder-section h2 {
+  border-bottom-color: #ffc107;
+}
+
+.reminders {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.reminder-item {
+  background: white;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  border-left: 4px solid #ffc107;
+  color: #333;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.reminder-item strong {
+  color: #856404;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .safety-header h1 {
+    font-size: 2rem;
+  }
+
+  .safety-section {
+    padding: 1.5rem;
+  }
+
+  .safety-section h2 {
+    font-size: 1.5rem;
+  }
+
+  .contacts-grid,
+  .tips-grid,
+  .disaster-tips,
+  .guidelines-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-number {
+    font-size: 1.5rem;
+  }
+}
+

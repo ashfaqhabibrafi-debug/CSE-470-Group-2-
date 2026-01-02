@@ -24,6 +24,7 @@ import FeedbackForm from './components/feedback/FeedbackForm';
 import FeedbackList from './components/feedback/FeedbackList';
 import AlertList from './components/alerts/AlertList';
 import MessageList from './components/messages/MessageList';
+import SafetyTips from './components/safety/SafetyTips';
 import VerifyDisasters from './components/admin/VerifyDisasters';
 import ManageUsers from './components/admin/ManageUsers';
 import VerifyHelpRequests from './components/admin/VerifyHelpRequests';
@@ -288,6 +289,18 @@ function App() {
               <ProtectedRoute>
                 <Layout>
                   <AlertList />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Safety Tips Route */}
+          <Route
+            path="/safety-tips"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <SafetyTips />
                 </Layout>
               </ProtectedRoute>
             }
