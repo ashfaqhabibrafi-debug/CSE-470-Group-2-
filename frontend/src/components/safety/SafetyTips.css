@@ -80,6 +80,25 @@
   color: white;
 }
 
+.contact-card.volunteer {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  color: white;
+  border-color: #4facfe;
+}
+
+.contact-card.volunteer h3,
+.contact-card.volunteer .contact-number,
+.contact-card.volunteer .contact-description,
+.contact-card.volunteer .contact-email {
+  color: white;
+}
+
+.contact-card.volunteer .contact-number {
+  font-size: 1.5rem;
+  font-weight: 600;
+  font-family: 'Courier New', monospace;
+}
+
 .contact-card h3 {
   color: #333;
   font-size: 1.2rem;
@@ -99,6 +118,103 @@
   color: #666;
   font-size: 0.95rem;
   margin-top: 0.5rem;
+}
+
+.contact-email {
+  color: #667eea;
+  font-size: 0.9rem;
+  margin-top: 0.75rem;
+  word-break: break-word;
+  font-style: italic;
+}
+
+.volunteer-info {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: #e3f2fd;
+  border-radius: 8px;
+  border-left: 4px solid #4facfe;
+}
+
+.volunteer-info p {
+  color: #333;
+  line-height: 1.8;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+.volunteer-info p:last-child {
+  margin-bottom: 0;
+}
+
+.volunteer-info strong {
+  color: #1976d2;
+}
+
+.volunteer-loading,
+.volunteer-error,
+.volunteer-empty {
+  padding: 2rem;
+  text-align: center;
+  border-radius: 8px;
+  margin-top: 1.5rem;
+}
+
+.volunteer-loading {
+  background: #e3f2fd;
+  color: #1976d2;
+  font-size: 1.1rem;
+}
+
+.volunteer-error {
+  background: #ffebee;
+  color: #c62828;
+  border: 2px solid #ef5350;
+  font-size: 1rem;
+}
+
+.volunteer-empty {
+  background: #f5f5f5;
+  color: #666;
+  font-size: 1rem;
+}
+
+.volunteer-empty p {
+  margin-bottom: 0.5rem;
+}
+
+.volunteer-empty p:last-child {
+  margin-bottom: 0;
+}
+
+.volunteer-help-button {
+  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
+  background: white;
+  color: #4facfe;
+  border: 2px solid white;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  width: 100%;
+}
+
+.volunteer-help-button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.9);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.volunteer-help-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.volunteer-help-button:active:not(:disabled) {
+  transform: translateY(0);
 }
 
 /* First Aid Tips */

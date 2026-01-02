@@ -31,7 +31,7 @@ exports.getUsers = async (req, res) => {
 exports.getVolunteers = async (req, res) => {
   try {
     const volunteers = await User.find({ role: 'volunteer' })
-      .select('_id name email profilePicture skills')
+      .select('_id name email phone profilePicture skills')
       .sort({ name: 1 });
 
     res.json({

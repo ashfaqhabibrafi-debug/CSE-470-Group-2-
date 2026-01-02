@@ -8,6 +8,14 @@ exports.register = async (req, res) => {
   try {
     const { name, email, password, role, phone, address, location } = req.body;
 
+    // Validate required fields
+    if (!phone || phone.trim() === '') {
+      return res.status(400).json({
+        success: false,
+        message: 'Phone number is required',
+      });
+    }
+
     // Check if user exists
     const userExists = await User.findOne({ email });
     if (userExists) {
@@ -23,7 +31,7 @@ exports.register = async (req, res) => {
       email,
       password,
       role: role || 'citizen',
-      phone,
+      phone: phone.trim(),
       address,
       location: location ? {
         type: 'Point',

@@ -42,11 +42,14 @@ const Register = () => {
     setLoading(true);
 
     try {
-      const { confirmPassword, ...userData } = formData;
-      // Remove phone if empty
-      if (!userData.phone || userData.phone.trim() === '') {
-        delete userData.phone;
+      // Validate phone number
+      if (!formData.phone || formData.phone.trim() === '') {
+        setError('Phone number is required');
+        setLoading(false);
+        return;
       }
+
+      const { confirmPassword, ...userData } = formData;
       await register(userData);
       navigate('/dashboard');
     } catch (err) {
@@ -96,13 +99,14 @@ const Register = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="phone">Phone (Optional)</label>
+            <label htmlFor="phone">Phone Number *</label>
             <input
               type="tel"
               id="phone"
               name="phone"
               value={formData.phone}
               onChange={handleChange}
+              required
               placeholder="Enter your phone number"
             />
           </div>

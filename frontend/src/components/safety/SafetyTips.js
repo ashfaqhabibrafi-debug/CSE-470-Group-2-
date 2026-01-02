@@ -1,7 +1,75 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { getVolunteers } from '../../services/userApi';
+import { sendMessage } from '../../services/messageApi';
+import { AuthContext } from '../../context/AuthContext';
 import './SafetyTips.css';
 
 const SafetyTips = () => {
+  const { user } = useContext(AuthContext);
+  const [volunteers, setVolunteers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [sendingMessage, setSendingMessage] = useState({});
+  const [messageSuccess, setMessageSuccess] = useState({});
+
+  useEffect(() => {
+    fetchVolunteers();
+  }, []);
+
+  const fetchVolunteers = async () => {
+    try {
+      setLoading(true);
+      setError('');
+      const response = await getVolunteers();
+      // Filter volunteers who have phone numbers
+      const volunteersWithPhone = (response.data || []).filter(v => v.phone && v.phone.trim() !== '');
+      setVolunteers(volunteersWithPhone);
+    } catch (err) {
+      console.error('Error fetching volunteers:', err);
+      setError('Failed to load volunteer contacts');
+      setVolunteers([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleRequestHelp = async (volunteerId, volunteerName) => {
+    if (!user || user.role !== 'citizen') {
+      alert('Only citizens can request help from volunteers.');
+      return;
+    }
+
+    try {
+      setSendingMessage(prev => ({ ...prev, [volunteerId]: true }));
+      setMessageSuccess(prev => ({ ...prev, [volunteerId]: false }));
+
+      const messageContent = `Hello, I found your contact information on the Safety Tips page and would like to request your assistance. Please contact me when you're available. Thank you!`;
+
+      await sendMessage({
+        receiver: volunteerId,
+        content: messageContent,
+      });
+
+      setMessageSuccess(prev => ({ ...prev, [volunteerId]: true }));
+      setTimeout(() => {
+        setMessageSuccess(prev => {
+          const newState = { ...prev };
+          delete newState[volunteerId];
+          return newState;
+        });
+      }, 3000);
+    } catch (err) {
+      console.error('Error sending message:', err);
+      alert(err.response?.data?.message || 'Failed to send message. Please try again.');
+    } finally {
+      setSendingMessage(prev => {
+        const newState = { ...prev };
+        delete newState[volunteerId];
+        return newState;
+      });
+    }
+  };
+
   return (
     <div className="safety-tips-container">
       <div className="safety-header">
@@ -35,6 +103,55 @@ const SafetyTips = () => {
               <p className="contact-description">Bangladesh Red Crescent Society</p>
             </div>
           </div>
+        </section>
+
+        {/* Volunteer Contacts Section */}
+        <section className="safety-section">
+          <h2>🤝 Volunteer Contacts</h2>
+          {loading ? (
+            <div className="volunteer-loading">Loading volunteer contacts...</div>
+          ) : error ? (
+            <div className="volunteer-error">{error}</div>
+          ) : volunteers.length === 0 ? (
+            <div className="volunteer-empty">
+              <p>No volunteer contacts available at the moment.</p>
+              <p>Volunteers can add their contact information in their profile.</p>
+            </div>
+          ) : (
+            <>
+              <div className="contacts-grid">
+                {volunteers.map((volunteer) => (
+                  <div key={volunteer._id} className="contact-card volunteer">
+                    <h3>{volunteer.name || 'Volunteer'}</h3>
+                    <p className="contact-number">{volunteer.phone}</p>
+                    <p className="contact-description">Available Volunteer</p>
+                    {volunteer.email && (
+                      <p className="contact-email">{volunteer.email}</p>
+                    )}
+                    {user && user.role === 'citizen' && (
+                      <button
+                        className="volunteer-help-button"
+                        onClick={() => handleRequestHelp(volunteer._id, volunteer.name)}
+                        disabled={sendingMessage[volunteer._id]}
+                      >
+                        {sendingMessage[volunteer._id] ? (
+                          'Sending...'
+                        ) : messageSuccess[volunteer._id] ? (
+                          '✓ Message Sent!'
+                        ) : (
+                          'Request Help'
+                        )}
+                      </button>
+                    )}
+                  </div>
+                ))}
+              </div>
+              <div className="volunteer-info">
+                <p><strong>How to Get Help:</strong> If you need volunteer assistance, please submit a help request through the dashboard or contact a volunteer directly using the numbers above.</p>
+                <p><strong>Become a Volunteer:</strong> Register as a volunteer through the system dashboard to help your community during disasters. Make sure to add your phone number in your profile to be listed here.</p>
+              </div>
+            </>
+          )}
         </section>
 
         {/* First Aid Section */}
