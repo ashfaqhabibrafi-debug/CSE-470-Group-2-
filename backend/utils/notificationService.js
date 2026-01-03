@@ -126,9 +126,65 @@ const notifyOrganizationVerified = async (organization, senderId) => {
   return await sendNotificationToUsers(content, senderId);
 };
 
+// Send notification to a specific user (single user notification)
+const sendNotificationToUser = async (userId, content, senderId) => {
+  try {
+    const message = await Message.create({
+      sender: senderId,
+      receiver: userId,
+      content: content,
+      read: false,
+    });
+
+    return {
+      success: true,
+      message: 'Notification sent',
+    };
+  } catch (error) {
+    console.error('Error sending notification to user:', error);
+    return {
+      success: false,
+      error: error.message,
+    };
+  }
+};
+
+// Send notification to donor when donation status changes to confirmed or delivered
+const notifyDonationStatusChange = async (donation, senderId) => {
+  try {
+    // Populate donation to get event info if needed
+    await donation.populate('event', 'title');
+    
+    let content = '';
+    const donationInfo = donation.donationType === 'money'
+      ? `$${donation.amount.toFixed(2)}`
+      : `${donation.quantity || 1} ${donation.itemDescription || donation.donationType}`;
+    
+    const eventInfo = donation.event ? ` for "${donation.event.title}"` : '';
+    
+    if (donation.status === 'confirmed') {
+      content = `Your donation of ${donationInfo}${eventInfo} has been confirmed. Thank you for your contribution!`;
+    } else if (donation.status === 'delivered') {
+      content = `Your donation of ${donationInfo}${eventInfo} has been delivered successfully. Your generosity is making a difference!`;
+    } else {
+      // Don't send notification for other status changes
+      return { success: true, message: 'No notification needed for this status' };
+    }
+    
+    return await sendNotificationToUser(donation.donor, content, senderId);
+  } catch (error) {
+    console.error('Error notifying donation status change:', error);
+    return {
+      success: false,
+      error: error.message,
+    };
+  }
+};
+
 module.exports = {
   sendNotificationToAdmins,
   sendNotificationToUsers,
+  sendNotificationToUser,
   notifyDisasterCreated,
   notifyDisasterVerified,
   notifyHelpRequestCreated,
@@ -136,5 +192,6 @@ module.exports = {
   notifyDonationEventCreated,
   notifyOrganizationCreated,
   notifyOrganizationVerified,
+  notifyDonationStatusChange,
 };
 
