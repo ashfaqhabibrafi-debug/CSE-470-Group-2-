@@ -7,9 +7,9 @@ const DonationForm = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     donationType: 'money',
-    amount: 0,
+    amount: '',
     itemDescription: '',
-    quantity: 1,
+    quantity: '',
     event: '',
     deliveryAddress: '',
     notes: '',
@@ -38,22 +38,42 @@ const DonationForm = () => {
     setFormData({
       ...formData,
       [name]: name === 'amount' || name === 'quantity' 
-        ? (value === '' ? 0 : parseFloat(value) || 0)
+        ? value  // Keep as string to allow empty value while typing
         : value,
     });
     setError('');
+  };
+
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    // Convert to number on blur, but allow empty for amount (will validate on submit)
+    if (name === 'amount' || name === 'quantity') {
+      const numValue = value === '' ? '' : parseFloat(value) || '';
+      setFormData({
+        ...formData,
+        [name]: numValue,
+      });
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
-    if (formData.donationType === 'money' && formData.amount <= 0) {
+    // Convert string values to numbers for submission
+    const amount = formData.donationType === 'money' 
+      ? (formData.amount === '' ? 0 : parseFloat(formData.amount) || 0)
+      : 0;
+    const quantity = formData.donationType !== 'money'
+      ? (formData.quantity === '' ? 1 : parseInt(formData.quantity, 10) || 1)
+      : 1;
+
+    if (formData.donationType === 'money' && amount <= 0) {
       setError('Please enter a valid donation amount.');
       return;
     }
 
-    if (formData.donationType !== 'money' && !formData.itemDescription) {
+    if (formData.donationType !== 'money' && !formData.itemDescription.trim()) {
       setError('Please describe the items you are donating.');
       return;
     }
@@ -63,9 +83,9 @@ const DonationForm = () => {
     try {
       const donationData = {
         donationType: formData.donationType,
-        amount: formData.donationType === 'money' ? formData.amount : 0,
+        amount,
         itemDescription: formData.donationType !== 'money' ? formData.itemDescription : '',
-        quantity: formData.donationType !== 'money' ? formData.quantity : 1,
+        quantity,
         event: formData.event || undefined,
         deliveryAddress: formData.deliveryAddress || undefined,
         notes: formData.notes || undefined,
@@ -119,6 +139,7 @@ const DonationForm = () => {
                 name="amount"
                 value={formData.amount}
                 onChange={handleChange}
+                onBlur={handleBlur}
                 min="0"
                 step="0.01"
                 required
@@ -142,15 +163,16 @@ const DonationForm = () => {
 
               <div className="form-group">
                 <label htmlFor="quantity">Quantity</label>
-                <input
-                  type="number"
-                  id="quantity"
-                  name="quantity"
-                  value={formData.quantity}
-                  onChange={handleChange}
-                  min="1"
-                  placeholder="Number of items"
-                />
+              <input
+                type="number"
+                id="quantity"
+                name="quantity"
+                value={formData.quantity}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                min="1"
+                placeholder="Number of items"
+              />
               </div>
             </>
           )}
