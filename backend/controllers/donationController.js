@@ -1,5 +1,6 @@
 const Donation = require('../models/Donation');
 const DonationEvent = require('../models/DonationEvent');
+const { notifyDonationStatusChange } = require('../utils/notificationService');
 
 // @desc    Get all donations
 // @route   GET /api/donations
@@ -214,10 +215,16 @@ exports.updateDonationStatus = async (req, res) => {
       });
     }
 
+    const oldStatus = donation.status;
     donation.status = status;
     if (transactionId) donation.transactionId = transactionId;
 
     await donation.save();
+
+    // Notify donor if status changed to confirmed or delivered
+    if ((status === 'confirmed' || status === 'delivered') && oldStatus !== status) {
+      await notifyDonationStatusChange(donation, req.user.id);
+    }
 
     res.json({
       success: true,
